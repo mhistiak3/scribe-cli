@@ -1,0 +1,13 @@
+{
+  "postLinkSelector": "a[href*=\"/post/\"]",
+  "contentSelector": "article[data-hook=\"post\"], div[data-hook=\"post-page\"]",
+  "fm_title": "h1[data-hook=\"post-title\"]",
+  "fm_meta_title": "h1[data-hook=\"post-title\"]",
+  "fm_description": "h1[data-hook=\"post-title\"]",
+  "fm_date": "span[data-hook=\"time-ago\"], span[data-hook=\"date\"]",
+  "fm_image": "section[data-hook=\"post-hero-image\"] img, img[data-hook=\"post-image\"]",
+  "fm_categories": "",
+  "fm_author": "a[data-hook=\"profile-link\"], span[data-hook=\"user-name\"]",
+  "fm_tags": "",
+  "fm_draft": ""
+}

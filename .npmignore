@@ -1,0 +1,29 @@
+# Test files
+test/
+tests/
+*.test.js
+*.spec.js
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Configuration
+.editorconfig
+.eslintrc*
+.prettierrc*
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Development
+src/**/*.map
+coverage/
+
+# Examples
+examples/
+demo.md
+bonnpark_config.json
