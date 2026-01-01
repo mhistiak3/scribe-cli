@@ -40,6 +40,35 @@ class ConfigManager {
     }
   }
 
+  analyzeDemoFormat(demoPath) {
+    if (!fs.existsSync(demoPath)) {
+      throw new Error(`Demo file not found: ${demoPath}`);
+    }
+
+    try {
+      const content = fs.readFileSync(demoPath, 'utf8');
+      const { data } = matter(content);
+      
+      // Analyze the format of each field
+      const formatInfo = {};
+      
+      for (const [key, value] of Object.entries(data)) {
+        if (key === 'categories' || key === 'tags') {
+          formatInfo[key] = { type: 'array', isArray: Array.isArray(value) };
+        } else if (key === 'draft') {
+          formatInfo[key] = { type: 'boolean', isBoolean: typeof value === 'boolean' };
+        } else {
+          // For string fields, detect if they should be quoted
+          formatInfo[key] = { type: 'string', useQuotes: true };
+        }
+      }
+      
+      return formatInfo;
+    } catch (error) {
+      throw new Error(`Failed to analyze demo format: ${error.message}`);
+    }
+  }
+
   async promptForSelectors(frontmatterKeys) {
     const questions = [
       {

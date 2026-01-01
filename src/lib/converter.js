@@ -23,6 +23,9 @@ class Converter {
     const recentPostsRegex = /(Recent Posts|See All)[\s\S]*$/i;
     markdown = markdown.replace(recentPostsRegex, '');
 
+    // Remove empty headings (##, ###, etc. with nothing after them)
+    markdown = markdown.replace(/^#{1,6}\s*$/gm, '');
+
     // Remove extra newlines
     markdown = markdown.replace(/\n{3,}/g, '\n\n').trim();
 
@@ -100,22 +103,27 @@ class Converter {
     return dateString;
   }
 
-  generateFrontmatter(postData, frontmatterKeys) {
+  generateFrontmatter(postData, frontmatterKeys, formatInfo = {}) {
     let frontmatter = '---\n';
     
     for (const key of frontmatterKeys) {
       let val = postData[key];
+      const format = formatInfo[key] || {};
       
-      if (key === 'categories' || key === 'tags') {
-        frontmatter += `${key}: ${JSON.stringify(val)}\n`;
-      } else if (key === 'draft') {
-        frontmatter += `${key}: ${val}\n`;
-      } else {
-        if (typeof val === 'string' && (val.includes(':') || val.includes('"') || val.includes("'"))) {
-          frontmatter += `${key}: "${val.replace(/"/g, '\\"')}"\n`;
-        } else {
-          frontmatter += `${key}: ${val}\n`;
+      if (format.type === 'array' || key === 'categories' || key === 'tags') {
+        // Always format as array
+        if (!Array.isArray(val)) {
+          val = val ? [val] : [];
         }
+        frontmatter += `${key}: ${JSON.stringify(val)}\n`;
+      } else if (format.type === 'boolean' || key === 'draft') {
+        // Boolean value
+        const boolVal = val === true || val === 'true';
+        frontmatter += `${key}: ${boolVal}\n`;
+      } else {
+        // String fields - always use quotes to match demo.md
+        const stringVal = val || '';
+        frontmatter += `${key}: "${stringVal.replace(/"/g, '\\"')}"\n`;
       }
     }
     

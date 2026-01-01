@@ -95,6 +95,15 @@ class Scraper {
           value = await page.$eval(selector, el => 
             el.getAttribute('datetime') || el.innerText
           ).catch(() => null);
+        } else if (key === 'categories' || key === 'tags') {
+          // Extract as array for categories and tags
+          value = await page.$$eval(selector, els => 
+            els.map(el => el.innerText.trim()).filter(text => text && text !== ',')
+          ).catch(() => null);
+          // If no elements found or failed, set empty array
+          if (!value || value.length === 0) {
+            value = [];
+          }
         } else {
           value = await page.$eval(selector, el => el.innerText).catch(() => null);
         }

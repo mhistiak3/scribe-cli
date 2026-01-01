@@ -29,12 +29,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tfistiak/scribe-cli.git"
+    "url": "git+https://github.com/mhistiak3/scribe-cli.git"
   },
   "bugs": {
-    "url": "https://github.com/tfistiak/scribe-cli/issues"
+    "url": "https://github.com/mhistiak3/scribe-cli/issues"
   },
-  "homepage": "https://github.com/tfistiak/scribe-cli#readme",
+  "homepage": "https://github.com/mhistiak3/scribe-cli#readme",
   "engines": {
     "node": ">=14.0.0"
   },

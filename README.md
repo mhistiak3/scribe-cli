@@ -29,26 +29,25 @@ Scrapes posts from blog URLs, downloads all images locally, and formats frontmat
 
 ## 📦 Installation
 
-### Global Installation (Recommended)
+### Clone and Use
 
 ```bash
-npm install -g scribe-cli
-```
-
-After installation, you can use the `scribe` command anywhere:
-
-```bash
-scribe <url> <demo.md> [options]
-```
-
-### Local Installation
-
-```bash
-git clone https://github.com/tfistiak/scribe-cli.git
+git clone https://github.com/mhistiak3/scribe-cli.git
 cd scribe-cli
 npm install
+```
+
+Then run directly:
+
+```bash
+node bin/scribe <url> <demo.md> [options]
+```
+
+Or make it executable:
+
+```bash
 chmod +x bin/scribe
-npm link
+./bin/scribe <url> <demo.md> [options]
 ```
 
 ## 🎯 Usage

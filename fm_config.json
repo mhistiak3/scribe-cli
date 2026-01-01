@@ -1,0 +1,13 @@
+{
+  "postLinkSelector": "h2.blog-post-title a",
+  "contentSelector": "div.content",
+  "fm_title": "h1.h2",
+  "fm_meta_title": "",
+  "fm_description": "",
+  "fm_date": "time[datetime]",
+  "fm_image": "article img",
+  "fm_categories": "",
+  "fm_author": "a[href*=\"/authors/\"]",
+  "fm_tags": "",
+  "fm_draft": ""
+}

@@ -109,6 +109,9 @@ async function main() {
     const frontmatterKeys = configManager.parseDemoFile(demoMdPath);
     logger.info(`Frontmatter keys: ${frontmatterKeys.join(', ')}`);
 
+    // Analyze demo.md format
+    const formatInfo = configManager.analyzeDemoFormat(demoMdPath);
+
     // Load or prompt for config
     let config;
     if (argv.config) {
@@ -167,13 +170,30 @@ async function main() {
         );
 
         // Apply custom refinements
-        postData.categories = postData.categories || ['news'];
-        postData.tags = postData.tags || [];
+        postData.categories = Array.isArray(postData.categories) && postData.categories.length > 0 
+          ? postData.categories 
+          : (postData.categories ? [postData.categories] : ['news']);
+        postData.tags = Array.isArray(postData.tags) && postData.tags.length > 0 
+          ? postData.tags 
+          : (postData.tags ? [postData.tags] : []);
         postData.draft = postData.draft !== undefined ? postData.draft : false;
 
-        // Generate slug
+        // Generate slug - use URL path if title-based slug would conflict
         const title = postData.title || postData.name || 'untitled';
-        const slug = slugify(title, { lower: true, strict: true }) || `post-${Date.now()}`;
+        let slug = slugify(title, { lower: true, strict: true }) || `post-${Date.now()}`;
+        
+        // Extract unique identifier from URL to prevent overwrites
+        const urlMatch = link.match(/\/([^\/]+)\/?$/);
+        if (urlMatch && urlMatch[1]) {
+          const urlPart = urlMatch[1];
+          // If the URL has a unique part (like post-1, post-2), use it as suffix
+          if (urlPart !== slug && !slug.includes(urlPart)) {
+            slug = `${slug}-${urlPart}`;
+          } else if (urlPart.match(/post-\d+/)) {
+            // If URL is like "post-1", use that directly
+            slug = urlPart;
+          }
+        }
 
         // Format date
         if (postData.date) {
@@ -207,7 +227,7 @@ async function main() {
         markdown = converter.cleanupMarkdown(markdown);
 
         // Generate final file
-        const frontmatter = converter.generateFrontmatter(postData, frontmatterKeys);
+        const frontmatter = converter.generateFrontmatter(postData, frontmatterKeys, formatInfo);
         const fileContent = frontmatter + markdown;
         const filePath = path.join(outputDir, `${slug}.md`);
 
