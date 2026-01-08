@@ -287,10 +287,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-<div align="center">
 
-Made with ❤️ by [Themefisher](https://github.com/tfistiak)
-
-[⭐ Star on GitHub](https://github.com/tfistiak/scribe-cli) if you find this useful!
-
-</div>
